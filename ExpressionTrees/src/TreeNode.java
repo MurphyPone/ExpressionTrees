@@ -21,4 +21,13 @@ public class TreeNode {
 	public void setValue(Object v) { value = v; }
 	public void setLeft(TreeNode l) { left = l; }
 	public void setRight(TreeNode r) { right = r; }
+	
+	//My added helpers
+	public boolean hasChildren() {
+		return (getLeft() != null && getRight() != null );
+	}
+	
+	public boolean hasLeft() { return getLeft() != null; }
+	public boolean hasRight() { return getRight() != null; }
+
 }

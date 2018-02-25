@@ -23,11 +23,11 @@ public class ExpressionTree extends TreeNode implements Expressions {
 		Stack<String> operators = temp[1];
 		Stack<String> parens = temp[2];
 
-		
 		return result;
 	}
 	
 	private Stack[] buildTreeHelper(String[] expression) throws NumberFormatException{
+		//TODO only need one stack......
 		Stack<Integer> nums = new Stack<Integer>();		
 		Stack<String> operators = new Stack<String>();
 		Stack<String> parens = new Stack<String>();
@@ -53,11 +53,24 @@ public class ExpressionTree extends TreeNode implements Expressions {
 		
 		return result;
 	}
-
-	@Override
+	
+	@Override //Place holder traversal sum --need to account for order of tree (branches = operators I think?)
 	public int evalTree() {
-		// TODO Auto-generated method stub
-		return 0;
+		return evalTreeHelper(this);	//pass in self as the root for the first pass
+	}
+	
+	private int evalTreeHelper(TreeNode root) {
+		if(!root.hasChildren())
+			return (int) root.getValue();	
+		//If a tree only has one subtree, then that subtree has no children, so just get val
+		else if(root.hasLeft() ) 
+			return (int) root.getLeft().getValue();
+		
+		else if(root.hasRight()) 
+			return (int) getRight().getValue();
+	
+		else //it has multiple children then
+			return evalTreeHelper(root.getLeft()) + evalTreeHelper(root.getRight());	//TODO assuming the operator is +
 	}
 
 	@Override
