@@ -16,43 +16,48 @@ public class ExpressionTree extends TreeNode implements Expressions {
 
 	@Override
 	public TreeNode buildTree(String[] expression) {
-		TreeNode result = new TreeNode(5);
-		//Fill structures with values of expression based off the helper method 
-		Stack[] temp = buildTreeHelper(expression);	
-		Stack<Integer> nums = temp[0];
-		Stack<String> operators = temp[1];
-		Stack<String> parens = temp[2];
-
-		return result;
-	}
-	
-	private Stack[] buildTreeHelper(String[] expression) throws NumberFormatException{
-		//TODO only need one stack......
-		Stack<Integer> nums = new Stack<Integer>();		
-		Stack<String> operators = new Stack<String>();
-		Stack<String> parens = new Stack<String>();
-		Stack[] result = new Stack[3];	//Create an empty array of size 3 to hold our stacks
+		Stack<Object> unprocessed = new Stack<Object>();
 		
 		for(int i = 0; i < expression.length; i++) {
-			String current = expression[i]; //cut down on those O(n) iterations 
+			String current = expression[i];	//cut down on O(n) iterations
 			
-			if(current.equals( "(" ) || current.equals( ")" ) ) //if its a ( or ) then push to parens
-				parens.push(current); 
+			if( isOperand(current) ) 
+				unprocessed.push(current);
 			
-			else if(current.equals("*") || current.equals("+") ) //if its a * or + then push to operators
-				operators.push(current);
-			
-			else {
-				try { //Try to convert it to an Int and push to the nums stack
-					nums.push(Integer.parseInt(current));	
-				} catch (NumberFormatException e) {
-					System.out.print(e); //Remove after testing?
-				}
+			else if( isOperator(current) ) {
+				TreeNode right = new TreeNode(unprocessed.pop());	 
+				TreeNode left = new TreeNode(unprocessed.pop());
+				//creates a cub-tree with operator as root and last 2 operands as the left and right sub-nodes
+				TreeNode root = new TreeNode(current, left, right); 
+				
+				unprocessed.push(root); //replace last 2 operands with a reference to the tree node that has them as leaves
 			}
+			//TODO else if isParen
+				
 		}
 		
-		return result;
+		return (TreeNode) unprocessed.pop();	//should be the tree
 	}
+	
+	//Helper booleans//
+	private boolean isOperand(String symbol) {	//is number
+		try {
+			Integer.parseInt(symbol);	//if this throws an error then it's not a num
+			return true;
+		} catch (NumberFormatException e) {
+			//System.out.print(e + "\nSymbol is not a number");
+			return false;
+		}
+	}
+	
+	private boolean isOperator(String symbol) {	//is + or *
+		return ( symbol.equals("+") || symbol.equals("*"));
+	}
+	
+	private boolean isParen(String symbol) {
+		return ( symbol.equals("(") || symbol.equals(")")); 
+	}
+	
 	
 	@Override //Place holder traversal sum --need to account for order of tree (branches = operators I think?)
 	public int evalTree() {
