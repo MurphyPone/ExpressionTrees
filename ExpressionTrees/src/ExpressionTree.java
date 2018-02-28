@@ -2,14 +2,11 @@ import java.util.Stack;
 
 //	2/25/18
 public class ExpressionTree extends TreeNode implements Expressions {
-	//Default constructor 
-	public ExpressionTree(Object v) {
-		super(v);
-	}
-	
-	//More args constructor
-	public ExpressionTree(Object v, TreeNode l, TreeNode r) {
-		super(v, l, r);
+	//constructor 
+	public ExpressionTree(String[] expression) {
+		super("");	//Create empty TreeNode
+		TreeNode temp = buildTree(expression);	//Get the full doohicky from buildTree
+		this.fix(temp.getValue(), temp.getLeft(), temp.getRight());	//Circumvent casting issues
 	}
 
 	@Override
@@ -17,12 +14,14 @@ public class ExpressionTree extends TreeNode implements Expressions {
 		Stack<Object> unprocessed = new Stack<Object>();
 		
 		for(int i = 0; i < expression.length; i++) {
+			//Maybe convert to TreeNode right away?
+			//TreeNode current = new TreeNode(expression[i].trim() );
 			String current = expression[i].trim();	//cut down on O(n) iterations
 			
 			if( isOperand(current) ) 
 				unprocessed.push(current);
 			
-			else if( isOperator(current) ) {
+			else if( isOperator( current) ) {
 				TreeNode right = new TreeNode(unprocessed.pop());	 
 				TreeNode left = new TreeNode(unprocessed.pop());
 				//creates a sub-tree with operator as root and last 2 operands as the left and right sub-nodes
@@ -37,9 +36,10 @@ public class ExpressionTree extends TreeNode implements Expressions {
 	
 	@Override //Place holder traversal sum --need to account for order of tree (branches = operators I think?)
 	public int evalTree() {
-		return evalTreeHelper(this);	//pass in self as the root for the first pass
+		return (int) evalTreeHelper(this);	//pass in self as the root for the first pass
 	}
 	
+	//TODO Should not return an int tbh
 	private int evalTreeHelper(TreeNode root) {
 		if (isOperator( (String) root.getValue()) ) {
 			int op1 = evalTreeHelper(root.getLeft());
@@ -58,9 +58,9 @@ public class ExpressionTree extends TreeNode implements Expressions {
 			if(root.getValue().equals("/"))
 				return op1 / op2;
 		} else //number have no children in expression trees, so just return val
-			return (int) root.getValue();
+			return (int) Integer.parseInt((String) root.getValue());
 		
-		return 0;//Shouldn't make it here????
+		return 0; //TODO Shouldn't make it here????
 	}
 
 	@Override
