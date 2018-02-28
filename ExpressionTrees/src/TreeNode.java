@@ -8,8 +8,6 @@ public class TreeNode {
 	public TreeNode(Object v) 
 		{ value = v; left = null; right = null;}
 	
-	//more args Constructor
-	//TODO QUESTION do these have to be TreeNodes?
 	public TreeNode(Object v, TreeNode l, TreeNode r) 
 		{ value = v; left = l; right = r; }
 	

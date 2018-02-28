@@ -1,9 +1,10 @@
 public class ExpTreeTester {
 	public static void main(String[] args) {
 		//Declarations
-		String[] exp1 = new String[] {"5", "3", "+", "5", "*"}; //= (5+3) * 5 = 40
-		String[] exp2 = new String[] { "5", "5", "3", "-", "*"}; //= (5-3) * 5 = 10
-		String[] exp3 = new String[] { "5", "5", "/", "5", "*"}; //= (5/5) * 5 = 5	//TODO THIS IS BROKEN
+		String[] exp1 = new String[] { "5", "3", "+", "5", "*" }; //= (5+3) * 5 = 40
+		String[] exp2 = new String[] { "5", "5", "3", "-", "*" }; //= (5-3) * 5 = 10
+		String[] exp3 = new String[] { "5", "7", "+", "88", "1","+", "+", "100", "-" }; //= (5/5) * 5 = 5	
+	
 
 		ExpressionTree xt1 = new ExpressionTree(exp1);
 		ExpressionTree xt2 = new ExpressionTree(exp2);

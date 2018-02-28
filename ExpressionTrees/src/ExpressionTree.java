@@ -57,14 +57,31 @@ public class ExpressionTree extends TreeNode implements Expressions {
 		} else //number have no children in expression trees, so just return val
 			return (int) Integer.parseInt((String) root.getValue());
 		
-		return 0; //TODO Shouldn't make it here????
+		return 0;	//dumb
 	}
 
 	//Evals
-	@Override
+	@Override	//Uses a Stack TODO PICK UP HERE 
 	public int postfixEval(String[] exp) {
-		// TODO Auto-generated method stub
-		return 0;
+		Stack<Object> unprocessed = new Stack<Object>();
+		
+		for(int i = 0; i < exp.length; i++) {
+			String current = exp[i].trim();	//cut down on O(n) iterations
+			
+			if( isOperand(current) ) //Leave as String here for convenient evaluation 
+				unprocessed.push(current );	//Create it as a TreeNode when you push 
+			
+			else if( isOperator(current) ) {
+				String right = (String) unprocessed.pop();	 
+				String left = (String) unprocessed.pop();	//current/everything in the stack is a TreeNode by default 
+				//creates a sub-tree with operator as root and last 2 operands as the left and right sub-nodes
+				//String result = left (?) right
+				String result = "replace this";
+				
+				unprocessed.push(result); //replace last 2 operands with a reference to the tree node that has them as leaves
+			}	
+		}
+		return (int) unprocessed.pop();	//should be the tree
 	}
 	
 	//toStrings
@@ -120,14 +137,19 @@ public class ExpressionTree extends TreeNode implements Expressions {
 		return result;
 	}
 
-	//TODO fix parens
+	//requires implied parens
 	private String inOrder(TreeNode root, String soFar) {	 //L V R
 		String result = soFar;
 		if(root != null) {
 			//if result[result.length-1] isOp then don't, else do add paren
-			result += "(" + inOrder(root.getLeft(), soFar );
-			result += root.getValue();
-			result += inOrder(root.getRight(), soFar ) + ")";
+			TreeNode left = new TreeNode(inOrder(root.getLeft(), soFar ) );
+			String v = (String) root.getValue(); 
+			TreeNode right = new TreeNode(inOrder(root.getRight(), soFar ) );
+			
+			if(isOperator(v))		
+				result += "(" + left.getValue() + v + right.getValue() + ")";
+			else 
+				result += left.getValue() + v + right.getValue();
 		} 
 		return result;
 	}

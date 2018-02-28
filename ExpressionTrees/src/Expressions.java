@@ -1,6 +1,5 @@
 public interface Expressions {
-
-TreeNode buildTree(String[] exp);
+	TreeNode buildTree(String[] exp);
 	int evalTree();
 	String toPrefixNotation();
 	String toInfixNotation();
