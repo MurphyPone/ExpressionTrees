@@ -60,6 +60,14 @@ public class ExpressionTree extends TreeNode implements Expressions {
 		return 0; //TODO Shouldn't make it here????
 	}
 
+	//Evals
+	@Override
+	public int postfixEval(String[] exp) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	//toStrings
 	@Override
 	public String toPrefixNotation() {
 		return preOrder(this, "");
@@ -67,22 +75,14 @@ public class ExpressionTree extends TreeNode implements Expressions {
 
 	@Override
 	public String toInfixNotation() {
-		// TODO Auto-generated method stub
-		return null;
+		return inOrder(this, "");
 	}
 
 	@Override
 	public String toPostfixNotation() {
-		// TODO Auto-generated method stub
-		return null;
+		return postOrder(this, "");
 	}
 
-	@Override
-	public int postfixEval(String[] exp) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
 
 	//Helper booleans//
 	private boolean isOperand(String symbol) {	//is number
@@ -100,34 +100,35 @@ public class ExpressionTree extends TreeNode implements Expressions {
 	}
 	
 	//Helper Traversals modified from p. 581
-	private String preOrder(TreeNode root, String r) {
-		String result = r;
+	private String preOrder(TreeNode root, String soFar) {	//V L R 
+		String result = soFar;
 		if(root != null) {
-			preOrder(root.getLeft(), result);
-			preOrder(root.getRight(), result);
-			return result += (String) root.getValue();
-		} else 
-			return ""; //if null node (DNE) return blank string 
+			result += root.getValue();
+			result += preOrder(root.getLeft(), soFar );
+			result += preOrder(root.getRight(), soFar );
+		} 
+		return result;
 	}
 	
-	private String postOrder(TreeNode root, String r) {
-		String result = r;
+	private String postOrder(TreeNode root, String soFar) {	//L R V
+		String result = soFar;
 		if(root != null) {
-			postOrder(root.getLeft(), result);
-			postOrder(root.getRight(), result);
-			return result += (String) root.getValue();
-		} else 
-			return ""; //if null node (DNE) return blank string 
+			result += postOrder(root.getLeft(), soFar );
+			result += postOrder(root.getRight(), soFar );
+			result += root.getValue();
+		} 
+		return result;
 	}
 
-	private String inOrder(TreeNode root, String r) {
-		String result = r;
+	//TODO fix parens
+	private String inOrder(TreeNode root, String soFar) {	 //L V R
+		String result = soFar;
 		if(root != null) {
-			inOrder(root.getLeft(), result);
-			result += (String) root.getValue();
-			inOrder(root.getRight(), result);
-			return result;
-		} else 
-			return "";
+			//if result[result.length-1] isOp then don't, else do add paren
+			result += "(" + inOrder(root.getLeft(), soFar );
+			result += root.getValue();
+			result += inOrder(root.getRight(), soFar ) + ")";
+		} 
+		return result;
 	}
 }
