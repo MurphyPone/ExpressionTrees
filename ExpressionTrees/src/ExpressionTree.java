@@ -14,23 +14,20 @@ public class ExpressionTree extends TreeNode implements Expressions {
 		Stack<Object> unprocessed = new Stack<Object>();
 		
 		for(int i = 0; i < expression.length; i++) {
-			//Maybe convert to TreeNode right away?
-			//TreeNode current = new TreeNode(expression[i].trim() );
 			String current = expression[i].trim();	//cut down on O(n) iterations
 			
-			if( isOperand(current) ) 
-				unprocessed.push(current);
+			if( isOperand(current) ) //Leave as String here for convenient evaluation 
+				unprocessed.push(new TreeNode(current) );	//Create it as a TreeNode when you push 
 			
-			else if( isOperator( current) ) {
-				TreeNode right = new TreeNode(unprocessed.pop());	 
-				TreeNode left = new TreeNode(unprocessed.pop());
+			else if( isOperator(current) ) {
+				TreeNode right = (TreeNode) unprocessed.pop();	 
+				TreeNode left = (TreeNode) unprocessed.pop();	//current/everything in the stack is a TreeNode by default 
 				//creates a sub-tree with operator as root and last 2 operands as the left and right sub-nodes
 				TreeNode root = new TreeNode(current, left, right); 
 				
 				unprocessed.push(root); //replace last 2 operands with a reference to the tree node that has them as leaves
 			}	
 		}
-		//TODO consider something like setValue(unprocessed.pop())
 		return (TreeNode) unprocessed.pop();	//should be the tree
 	}
 	
@@ -99,7 +96,7 @@ public class ExpressionTree extends TreeNode implements Expressions {
 	}
 	
 	private boolean isOperator(String symbol) {	//is + or *
-		return ( symbol.equals("+") || symbol.equals("*"));
+		return ( symbol.equals("+") || symbol.equals("*") || symbol.equals("-") || symbol.equals("/"));
 	}
 	
 	//Helper Traversals modified from p. 581
