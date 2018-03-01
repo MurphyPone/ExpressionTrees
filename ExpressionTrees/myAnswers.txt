@@ -1,0 +1,40 @@
+Expression[0]
+	value: 0
+	prefix: - + 5 3 8 
+	infix: ((5 + 3) - 8)
+	postfix: 5 3 + 8 - 
+	postFixEval: 0
+
+
+Expression[1]
+	value: 48
+	prefix: * + + 1 1 + 1 1 + + 3 3 + 3 3 
+	infix: (((1 + 1) + (1 + 1)) * ((3 + 3) + (3 + 3)))
+	postfix: 1 1 + 1 1 + + 3 3 + 3 3 + + * 
+	postFixEval: 48
+
+
+Expression[2]
+	value: 1000
+	prefix: + 999 1 
+	infix: (999 + 1)
+	postfix: 999 1 + 
+	postFixEval: 1000
+
+
+Expression[3]
+	value: 1
+	prefix: + 1 0 
+	infix: (1 + 0)
+	postfix: 1 0 + 
+	postFixEval: 1
+
+
+Expression[4]
+	value: 48
+	prefix: / - + 5 99 * 8 + 2 5 0 
+	infix: (((5 + 99) - (8 * (2 + 5))) / 0)
+	postfix: 5 99 + 8 2 5 + * - 0 / 
+	postFixEval: 48
+
+

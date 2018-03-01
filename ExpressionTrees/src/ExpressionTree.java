@@ -31,12 +31,14 @@ public class ExpressionTree extends TreeNode implements Expressions {
 		return (TreeNode) unprocessed.pop();	//should be the tree
 	}
 	
+	//Evals
+	
 	@Override //Place holder traversal sum --need to account for order of tree (branches = operators I think?)
 	public int evalTree() {
 		return (int) evalTreeHelper(this);	//pass in self as the root for the first pass
 	}
-	
-	//TODO Should not return an int tbh
+
+	//Should not return an int tbh
 	private int evalTreeHelper(TreeNode root) {
 		if (isOperator( (String) root.getValue()) ) {
 			int op1 = evalTreeHelper(root.getLeft());
@@ -52,36 +54,53 @@ public class ExpressionTree extends TreeNode implements Expressions {
 			if(root.getValue().equals("-"))
 				return op1 - op2;
 			
-			if(root.getValue().equals("/"))
-				return op1 / op2;
+			if(root.getValue().equals("/")) { 
+				if(op2 != 0)
+					return op1 / op2;	
+				else 
+					return op1 / 1; //don't divide by zero
+			}
+			
 		} else //number have no children in expression trees, so just return val
 			return (int) Integer.parseInt((String) root.getValue());
 		
 		return 0;	//dumb
 	}
 
-	//Evals
-	@Override	//Uses a Stack TODO PICK UP HERE 
+	@Override	//Uses a Stack  
 	public int postfixEval(String[] exp) {
-		Stack<Object> unprocessed = new Stack<Object>();
+		Stack<Integer> unprocessed = new Stack<Integer>();
 		
 		for(int i = 0; i < exp.length; i++) {
 			String current = exp[i].trim();	//cut down on O(n) iterations
 			
 			if( isOperand(current) ) //Leave as String here for convenient evaluation 
-				unprocessed.push(current );	//Create it as a TreeNode when you push 
+				unprocessed.push(Integer.parseInt(current));
 			
 			else if( isOperator(current) ) {
-				String right = (String) unprocessed.pop();	 
-				String left = (String) unprocessed.pop();	//current/everything in the stack is a TreeNode by default 
-				//creates a sub-tree with operator as root and last 2 operands as the left and right sub-nodes
-				//String result = left (?) right
-				String result = "replace this";
+				int right = unprocessed.pop();	 
+				int left =  unprocessed.pop();	//current/everything in the stack is a TreeNode by default 
+				int result = 0;
+				
+				if(current.equals("+") )
+					result = left + right;
+				
+				else if(current.equals("*") )
+					result = left * right;
+				
+				else if(current.equals("-") )	//bonus operators
+					result = left - right;
+				
+				else if(current.equals("/") )
+					if ( right != 0 )
+						result = left / right;
+					else 
+						result = left / 1;	//don't divide by zero here either 
 				
 				unprocessed.push(result); //replace last 2 operands with a reference to the tree node that has them as leaves
 			}	
 		}
-		return (int) unprocessed.pop();	//should be the tree
+		return unprocessed.pop();	
 	}
 	
 	//toStrings
@@ -100,11 +119,10 @@ public class ExpressionTree extends TreeNode implements Expressions {
 		return postOrder(this, "");
 	}
 
-
 	//Helper booleans//
 	private boolean isOperand(String symbol) {	//is number
 		try {
-			Integer.parseInt(symbol);	//if this throws an error then it's not a num
+			Integer.parseInt(symbol.trim());	//if this throws an error then it's not a num
 			return true;
 		} catch (NumberFormatException e) {
 			//System.out.print(e + "\nSymbol is not a number");
@@ -113,14 +131,14 @@ public class ExpressionTree extends TreeNode implements Expressions {
 	}
 	
 	private boolean isOperator(String symbol) {	//is + or *
-		return ( symbol.equals("+") || symbol.equals("*") || symbol.equals("-") || symbol.equals("/"));
+		return ( symbol.trim().equals("+") || symbol.trim().equals("*") || symbol.trim().equals("-") || symbol.trim().equals("/"));
 	}
 	
 	//Helper Traversals modified from p. 581
 	private String preOrder(TreeNode root, String soFar) {	//V L R 
 		String result = soFar;
 		if(root != null) {
-			result += root.getValue();
+			result += root.getValue() + " ";
 			result += preOrder(root.getLeft(), soFar );
 			result += preOrder(root.getRight(), soFar );
 		} 
@@ -132,7 +150,7 @@ public class ExpressionTree extends TreeNode implements Expressions {
 		if(root != null) {
 			result += postOrder(root.getLeft(), soFar );
 			result += postOrder(root.getRight(), soFar );
-			result += root.getValue();
+			result += root.getValue() + " ";
 		} 
 		return result;
 	}
@@ -146,8 +164,8 @@ public class ExpressionTree extends TreeNode implements Expressions {
 			String v = (String) root.getValue(); 
 			TreeNode right = new TreeNode(inOrder(root.getRight(), soFar ) );
 			
-			if(isOperator(v))		
-				result += "(" + left.getValue() + v + right.getValue() + ")";
+			if(isOperator(v))	
+				result += "(" + left.getValue() + " " + v + " " + right.getValue() + ")";	//Add spaces for readability
 			else 
 				result += left.getValue() + v + right.getValue();
 		} 
