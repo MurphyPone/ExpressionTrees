@@ -1,3 +1,9 @@
+/**
+ * 	Class Description: This class handles the input/output of ExpressionTrees 
+ *  @author MurphyP1
+ *  @date 3/1/18
+ */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -6,19 +12,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//Use for assignment
 public class ExpTreeOutput {
+	/**
+	 * The main method inside of which several ExpressionTrees are created from user input, evaluated, and then output to designated files 
+	 *  @author MurphyP1
+	 *  @date 3/1/18
+	 *  @method main
+	 *  @param args an array of Strings which are pulled from the command line
+	 *  @throws IOException 
+	 */
 	public static void main(String[] args) throws IOException {
 	    Scanner keyboard = new Scanner(System.in);	//import kb
 	    String fileName = "postFixExpressions.txt";	//postFixExpressions.txt
-	    Scanner input = createInput(args, fileName, keyboard );
+	    Scanner input = createInput(args, fileName, keyboard );	//Create input 
 	    PrintWriter output = new PrintWriter(new FileWriter("myAnswers.txt"));	//Create output
 
 	    //Create expressions
 	    String[] expressions = readFile(input);
-	    //System.out.println(expressions[2]);	///REMOVE ME 
 	    
-	    //create trees from expressions
+	    //Create ExpressionTrees from expressions
 	    ExpressionTree[] trees = new ExpressionTree[expressions.length];	//Create an array of trees the same size as the #expressions
 	    for(int i = 0; i < expressions.length; i++ ) {
 	    		String[] exp = expressions[i].split(" "); //splits each expression into another array of the terms
@@ -40,19 +52,23 @@ public class ExpTreeOutput {
 	    		output.println("\n");
 	    		
 	    }
-
-	   
+	    
 	    // Finish:
 	    input.close();
 	    output.close();
 	    keyboard.close();
 	}
 	
-	
-	//helper methods// 
+	//HELPER METHODS // 
 
-	
-	//Converts input Scanner to String[]
+	/**
+	 *	Converts the input Scanner to an array of Strings 
+	 *  @author MurphyP1
+	 *  @date 3/1/18
+	 *  @method readFile
+	 *  @param in a Scanner which is converted to an Array of Strings 
+	 *  @return an array of Strings which contains all the expressions in the input file 
+	 */
 	public static String[] readFile(Scanner in) {
 		String[] expressions;
 		ArrayList<String> raw = new ArrayList<String>();
@@ -72,17 +88,26 @@ public class ExpTreeOutput {
 		return expressions;
 	}
 	
-	
+	/**
+	 *	A helper method which returns a Scanner from either the command line arguments, the provided fileName, or (if all else fails) the user's unreliable input
+	 *  @author MurphyP1
+	 *  @date 3/1/18
+	 *  @method createInput
+	 *  @param args an array of Strings which might contain the fileName from which the Scanner can be created 
+	 *  @param fileName a String which can be used to attempt to open a file to be converted to the Scanner 
+	 *  @param kb the Scanner created to return user input 
+	 *  @return a Scanner with expressions in postfix notation
+	 */
 	public static Scanner createInput(String[] args, String fileName, Scanner kb ) {
 		Scanner input = null;
 		
-		if (args.length > 0)	// Attempt to open file based on cmdln args
+		if (args.length > 0)	 // Attempt to open file based on cmdln args
  			input = openFile(args[0]);	//set input to a Scanner from filename
  
-	    	else if(openFile(fileName) != null )
+	    	else if(openFile(fileName) != null )	//Attempt to open file based on default fileName 
 	    		input = openFile(fileName);
  
-	    	else {
+	    	else {	//Attempt to open file based on user input (God help us)
 	    		System.out.println("\nEnter input file name: ");
 	    		fileName = kb.nextLine().trim(); //Input = user input
 	    		input = openFile(fileName);
@@ -90,6 +115,14 @@ public class ExpTreeOutput {
 		return input;
 	}
 	
+	/**
+	 *	A helper method which returns a Scanner from a supplied fileName
+	 *  @author MurphyP1
+	 *  @date 3/1/18
+	 *  @method openFile
+	 *  @param fname a String which can be used to try to open initialize a Scanner
+	 *  @return a Scanner from the supplied fileName or null if the file name was invalid 
+	 */
     public static Scanner openFile(String fname) {	
 		File file = new File(fname);
 		Scanner input = null;
@@ -97,7 +130,7 @@ public class ExpTreeOutput {
 		try {							//Check to see if the requested input file exists in the given directory
 			input = new Scanner(file);	//If so, create a new Scanner to grab the data
 		} catch (FileNotFoundException ex) {	//Else, print to console the reason why and output the reason why & part of program getting stuck
-			System.out.println("Unable to Open File: fname\n"); //TODO REMOVE ME 
+			//System.out.println("Unable to Open File: fname\n"); 
 			return null;
 		}
 		return input;

@@ -1,3 +1,9 @@
+/**
+ * 	Class Description: A poorly documented testing class which outputs to the console instead of a designated output file 
+ *  @author MurphyP1
+ *  @date 2/25/18
+ */
+
 public class ExpTreeTester {
 	public static void main(String[] args) {
 		//Declarations
@@ -41,7 +47,5 @@ public class ExpTreeTester {
 		System.out.println("xt2 in postfix notation is: " + xt2.toPostfixNotation() + " = " + xt2.evalTree() );
 		System.out.println("xt3 in postfix notation is: " + xt3.toPostfixNotation() + " = " + xt3.evalTree() );
 		System.out.println("stk in postfix notation is: " + stk.toPostfixNotation() + " = " + stk.evalTree() );
-
-
 	}
 }
