@@ -67,9 +67,9 @@ public class ExpressionTree extends TreeNode implements Expressions {
 	}
 
 	/** 
-	 * The helper method called by evalTree which 
+	 * The helper method called by evalTree which evaluates a node as either an operator or operand, and processes it/its children accordingly 
 	 * @author MurphyP1
-	 * @date 2/28/18
+	 * @date 3/6/18
 	 * @method evalTreeHelper
 	 * @param root a TreeNode whose value is returned if it is an operand, or passed to another recursive call if it is an operator
 	 * @return the value of the ExpressionTree
@@ -93,7 +93,7 @@ public class ExpressionTree extends TreeNode implements Expressions {
 				if(op2 != 0)
 					return op1 / op2;	
 				else 
-					return op1 / 1; //don't divide by zero
+					return Integer.MAX_VALUE; //~infinity - Patrick's fun solution to a trivial problem
 			}
 			
 		} else //operands have no children in ExpressionTrees, so just return the value of the node
@@ -105,7 +105,7 @@ public class ExpressionTree extends TreeNode implements Expressions {
 	/** 
 	 * An evaluation method which uses a stack to evaluate a postfix expression
 	 * @author MurphyP1
-	 * @date 2/28/18
+	 * @date 3/6/18
 	 * @method postfixEval
 	 * @param exp an array of Strings whose elements are individual terms of a postfix expression
 	 * @return the value of the String expression
@@ -138,7 +138,7 @@ public class ExpressionTree extends TreeNode implements Expressions {
 					if ( right != 0 )
 						result = left / right;
 					else 
-						result = left / 1;	//don't divide by zero here either 
+						result = Integer.MAX_VALUE;	//don't divide by zero here either 
 				
 				unprocessed.push(result); //replace last 2 operands with their sum or product depending on the operator
 			}	
@@ -206,7 +206,7 @@ public class ExpressionTree extends TreeNode implements Expressions {
 	}
 	
 	/** 
-	 * A recursive method which  traverses to the left and right sub-trees before extracting the value of the current TreeNode
+	 * A recursive method which traverses to the left and right sub-trees before extracting the value of the current TreeNode
 	 * @author MurphyP1
 	 * @date 2/28/18
 	 * @method postOrder
@@ -279,4 +279,26 @@ public class ExpressionTree extends TreeNode implements Expressions {
 	private boolean isOperator(String symbol) {
 		return ( symbol.trim().equals("+") || symbol.trim().equals("*") || symbol.trim().equals("-") || symbol.trim().equals("/"));
 	}
+	
+	//EXTRA HELPER METHODS//
+
+	/** 
+	 * A setter method which calls both the setLeft and setRight methods for concision
+	 * @author MurphyP1
+	 * @date 2/27/18
+	 * @method setLeaves
+	 * @param l the TreeNode which becomes the left sub-TreeNode
+	 * @param r the TreeNode which becomes the right sub-TreeNode
+	 */
+	public void setLeaves(TreeNode l, TreeNode r) { setLeft(l); setRight(r); }
+	
+	/** 
+	 * A setter method which calls both setValue and setLeaves so a TreeNode can be fully configured after creation with one method call
+	 * @author MurphyP1
+	 * @date 2/27/18
+	 * @method fix
+	 * @param l the TreeNode which becomes the left sub-TreeNode
+	 * @param r the TreeNode which becomes the right sub-TreeNode
+	 */
+	public void fix(Object v, TreeNode l, TreeNode r) { setValue(v); setLeaves(l, r); }
 }

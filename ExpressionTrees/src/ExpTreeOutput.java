@@ -3,7 +3,6 @@
  *  @author MurphyP1
  *  @date 3/2/18
  */
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -50,7 +49,6 @@ public class ExpTreeOutput {
 
 	    		//	Print two blank lines
 	    		output.println("\n");
-	    		
 	    }
 	    
 	    // Finish:

@@ -31,10 +31,10 @@ Expression[3]
 
 
 Expression[4]
-	value: 48
+	value: 2147483647
 	prefix: / - + 5 99 * 8 + 2 5 0 
 	infix: (((5 + 99) - (8 * (2 + 5))) / 0)
 	postfix: 5 99 + 8 2 5 + * - 0 / 
-	postFixEval: 48
+	postFixEval: 2147483647
 
 
