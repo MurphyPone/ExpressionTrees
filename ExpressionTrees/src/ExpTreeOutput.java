@@ -72,9 +72,11 @@ public class ExpTreeOutput {
 		ArrayList<String> raw = new ArrayList<String>();
 		
 		//input --> raw
-		while (in.hasNextLine() ) 
-		      raw.add(in.nextLine() );
-		
+		while (in.hasNextLine() ) {
+			String line = in.nextLine().trim();
+			if( !line.equals("") )
+		      raw.add(line);
+		}
 		//initialize expressions 
 		expressions = new String[raw.size()]; 
 		
@@ -106,12 +108,11 @@ public class ExpTreeOutput {
 	    		input = openFile(fileName);
  
 	    	else {	//Attempt to open file based on user input (God help us if this doesn't work)
-	    		System.out.println("\nEnter input file name: ");
-	    		fileName = kb.nextLine().trim(); //Input = user input
-	    		if( openFile(fileName) != null )
+	    		while ( ( openFile(fileName) == null ) ) {
+	    			System.out.println("\nEnter input file name: ");
+		    		fileName = kb.nextLine().trim(); //Input = user input
 	    			input = openFile(fileName);
-	    		else 
-	    			input = new Scanner("2 2 +");	//If all else fails, have mercy on simple arithmetic
+	    		} 
 	    	}
 		return input;
 	}
