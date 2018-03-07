@@ -21,21 +21,21 @@ public class ExpTreeOutput {
 	 *  @throws IOException 
 	 */
 	public static void main(String[] args) throws IOException {
-	    Scanner keyboard = new Scanner(System.in);	//import kb
-	    String fileName = "postFixExpressions.txt";	//postFixExpressions.txt
-	    Scanner input = createInput(args, fileName, keyboard );	//Create input 
+	    Scanner keyboard = new Scanner(System.in);	//Create Scanner for keyboard IO
+	    String fileName = "postFixExpressions.txt";	//"postFixExpressions.txt" 
+	    Scanner input = createInput(args, fileName, keyboard );	//Create input from args, fileName or user input 
 	    PrintWriter output = new PrintWriter(new FileWriter("myAnswers.txt"));	//Create output
 
-	    //Create expressions
+	    //Create expressions from input Scanner
 	    String[] expressions = readFile(input);
 	    
-	    //Create ExpressionTrees from expressions
+	    //Create ExpressionTrees from expressions array
 	    ExpressionTree[] trees = new ExpressionTree[expressions.length];	//Create an array of trees the same size as the #expressions
 	    for(int i = 0; i < expressions.length; i++ ) {
-	    		String[] exp = expressions[i].split(" "); //splits each expression into another array of the terms
+	    		String[] exp = expressions[i].split(" "); //splits each expression into another array of the terms within
 	    		trees[i] = new ExpressionTree(exp);
 	    	
-	    		//	Evaluate the expression using your evalExp method and print the answer to the output file
+	    		//	Evaluate the expression using your evalTree* method and print the answer to the output file
 	    		output.println("Expression["+i+"]");
 	    		output.println("\tvalue: " + trees[i].evalTree());
 	    		
@@ -99,16 +99,19 @@ public class ExpTreeOutput {
 	public static Scanner createInput(String[] args, String fileName, Scanner kb ) {
 		Scanner input = null;
 		
-		if (args.length > 0)	 // Attempt to open file based on cmdln args
- 			input = openFile(args[0]);	//set input to a Scanner from filename
+		if (args.length > 0 && openFile(args[0]) != null )	 // Attempt to open file based on cmdln args and valid result
+ 			input = openFile(args[0]);	//set input to a Scanner from fileName
  
-	    	else if(openFile(fileName) != null )	//Attempt to open file based on default fileName 
+	    	else if(openFile(fileName) != null )	//Attempt to open file based on default fileName and valid result
 	    		input = openFile(fileName);
  
-	    	else {	//Attempt to open file based on user input (God help us)
+	    	else {	//Attempt to open file based on user input (God help us if this doesn't work)
 	    		System.out.println("\nEnter input file name: ");
 	    		fileName = kb.nextLine().trim(); //Input = user input
-	    		input = openFile(fileName);
+	    		if( openFile(fileName) != null )
+	    			input = openFile(fileName);
+	    		else 
+	    			input = new Scanner("2 2 +");	//If all else fails, have mercy on simple arithmetic
 	    	}
 		return input;
 	}

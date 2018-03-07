@@ -3,7 +3,7 @@
  * 						which requires methods enabling the for evaluation/output of the values of expression 
  * 						in prefix, infix, and postfix notation.
  *  @author MurphyP1
- *  @date 3/1/18
+ *  @date 3/6/18
  */
 
 import java.util.Stack;
@@ -285,7 +285,7 @@ public class ExpressionTree extends TreeNode implements Expressions {
 	/** 
 	 * A setter method which calls both the setLeft and setRight methods for concision
 	 * @author MurphyP1
-	 * @date 2/27/18
+	 * @date 3/6/18
 	 * @method setLeaves
 	 * @param l the TreeNode which becomes the left sub-TreeNode
 	 * @param r the TreeNode which becomes the right sub-TreeNode
@@ -295,7 +295,7 @@ public class ExpressionTree extends TreeNode implements Expressions {
 	/** 
 	 * A setter method which calls both setValue and setLeaves so a TreeNode can be fully configured after creation with one method call
 	 * @author MurphyP1
-	 * @date 2/27/18
+	 * @date 3/6/18
 	 * @method fix
 	 * @param l the TreeNode which becomes the left sub-TreeNode
 	 * @param r the TreeNode which becomes the right sub-TreeNode

@@ -1,7 +1,7 @@
 /**
  * 	Class Description: A poorly documented testing class which IS JUST FOR TESTING, NOT FOR GRADING 
  *  @author MurphyP1
- *  @date 2/25/18
+ *  @date  2/25/18
  */
 
 public class ExpTreeTester {
