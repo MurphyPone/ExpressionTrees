@@ -22,7 +22,7 @@ public class ExpTreeOutput {
 	 */
 	public static void main(String[] args) throws IOException {
 	    Scanner keyboard = new Scanner(System.in);	//Create Scanner for keyboard IO
-	    String fileName = "postFixExpressions.txt";	//"postFixExpressions.txt" 
+	    String fileName = "ExpressionTests.txt";	//"postFixExpressions.txt" 
 	    Scanner input = createInput(args, fileName, keyboard );	//Create input from args, fileName or user input 
 	    PrintWriter output = new PrintWriter(new FileWriter("myAnswers.txt"));	//Create output
 
