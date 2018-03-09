@@ -169,7 +169,7 @@ public class ExpressionTree extends TreeNode implements Expressions {
 	 */
 	@Override
 	public String toInfixNotation() {
-		return inOrder(this, "").substring(1, this.length); //TODO remove extraneous parens?
+		return inOrder(this, "");// .substring(1, this.length); //TODO remove extraneous parens?
 	}
 
 	/** 
