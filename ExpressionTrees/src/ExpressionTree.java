@@ -169,7 +169,7 @@ public class ExpressionTree extends TreeNode implements Expressions {
 	 */
 	@Override
 	public String toInfixNotation() {
-		return inOrder(this, "");
+		return inOrder(this, "").substring(1, this.length); //TODO remove extraneous parens?
 	}
 
 	/** 
@@ -240,7 +240,7 @@ public class ExpressionTree extends TreeNode implements Expressions {
 			String v = (String) root.getValue(); 
 			TreeNode right = new TreeNode(inOrder(root.getRight(), soFar ) );
 			
-			if(isOperator(v))	
+			if(isOperator(v)) 	
 				result += "(" + left.getValue() + " " + v + " " + right.getValue() + ")";	//Add spaces for readability
 			else 
 				result += left.getValue() + v + right.getValue();
